@@ -9,22 +9,22 @@ const Chat = () => {
             const response = await fetch('http://localhost:3001/1/1/chat', {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  Question: message,
-                  Answer: "haihaia"
+                    Question: message,
+                    Answer: "haihaia"
                 })
-              });
-              console.log(response);
+            });
+            console.log(response);
         }
         catch(error){
             console.log(error);
         }
         //reset messagenya
         setMessage('');
-      };      
-      
+    };      
+
     return (
         <div className="flex h-screen antialiased text-gray-800">
             <div className="flex flex-col flex-auto p-6">
