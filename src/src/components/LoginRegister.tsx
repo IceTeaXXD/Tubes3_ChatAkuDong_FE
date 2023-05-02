@@ -1,20 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const LoginRegister = () => {
+interface User {
+    IDUser: number;
+    Username: string;
+    Password: string;
+}
+
+interface LoginProps {
+    onLogin: () => any;
+}
+
+const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
     const [activeTab, setActiveTab] = useState("login");
+    const [users, setUsers] = useState<User[]>([]);
+    const [loginFailed, setLoginFailed] = useState(false);
 
-    const handleLogin = () => {
-        console.log("Logging in with username:", username, "and password:", password);
-        // Add code to handle login form submission
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+        
+    const fetchUsers = () => {
+        fetch("http://localhost:3001/login")
+            .then((response) => response.json())
+            .then((data) => setUsers(data.users))
+            .catch((error) => console.error("Error fetching users: ", error));
     };
 
-    const handleRegister = () => {
-        console.log("Registering with username:", registerUsername, "and password:", registerPassword);
-        // Add code to handle register form submission
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        fetchUsers();
+        console.log("Logging in with username:", username, "and password:", password);
+        if (users.length > 0) {
+            const user = users.find(
+                (u: User) => u.Username === username && u.Password === password
+            );
+            if (user) {
+                console.log("Login successful:", user);
+                onLogin();
+            } else {
+                console.error("Login failed: incorrect username or password");
+                setLoginFailed(true)
+            }
+        } else {
+            console.error("Login failed: no users found");
+            setLoginFailed(true)
+        }
+    };
+
+    const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log("Registering with username:",registerUsername,"and password:",registerPassword);
+        try {
+            const response = await fetch("http://localhost:3001/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: registerUsername,
+                    password: registerPassword,
+                }),
+            });
+            const data = await response.json();
+            console.log("Registration successful:", data);
+            setActiveTab("login");
+            fetchUsers();
+        } catch (error) {
+            console.error("Error registering user: ", error);
+        }
     };
 
     return (
@@ -122,6 +179,13 @@ const LoginRegister = () => {
                             </form>
                         )
                     }
+                    
+                    {loginFailed && (
+                        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mt-4" role="alert">
+                            <p className="font-bold">Login failed.</p>
+                            <p>Please check your username and password and try again.</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
