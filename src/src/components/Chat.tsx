@@ -1,40 +1,30 @@
 import { error } from "console";
 import React, { useState, useEffect } from "react";
 
-const Chat = () => {
-    const [description, setDescription] = useState("");
-    const [chat, setChat] = useState([]); 
-    const getChats = async () => {
-        try {
-            const response = await fetch("http://localhost:5000/chats");
-            const jsonData = await response.json();
-            console.log(jsonData);
-            setChat(jsonData);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-    useEffect(() => {
-        getChats();
-    }, []);
-
-    const onSendChat = async (e: React.FormEvent<HTMLFormElement>) => {
+const Chat = () => { 
+    const [message, setMessage] = useState('');
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-        try {
-            const body = { description };
-            await fetch("http://localhost:5000/chats", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body),
-            });
-            setDescription(""); // Clear the input field after the chat is sent
-            const updatedChatsResponse = await fetch("http://localhost:5000/chats");
-            const updatedChatsJsonData = await updatedChatsResponse.json();
-            setChat(updatedChatsJsonData); // Update the chat state with the updated chats
-        } catch (err) {
-            console.error(err);
+        try{
+            const response = await fetch('http://localhost:3001/1/1/chat', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  Question: message,
+                  Answer: "haihaia"
+                })
+              });
+              console.log(response);
         }
-    };    
+        catch(error){
+            console.log(error);
+        }
+        //reset messagenya
+        setMessage('');
+      };      
+      
     return (
         <div className="flex h-screen antialiased text-gray-800">
             <div className="flex flex-col flex-auto p-6">
@@ -71,28 +61,34 @@ const Chat = () => {
                             </div> */}
                             
                             <div className="col-start-6 col-end-13 p-3 rounded-lg">
-                                {chat.map((chatItem: { description: string }, index: number) => (
+                                {/* {chat.map((chatItem: { description: string }, index: number) => (
                                     <div key={index} className="flex items-center justify-start flex-row-reverse mb-2">
                                         <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none">
                                             <div>{chatItem.description}</div>
                                         </div>
                                     </div>
-                                ))}
+                                ))} */}
                             </div>
                         </div>
                         </div>
                     </div>
-                <form onSubmit={onSendChat}>
+                <form onSubmit={handleSubmit}>
                     <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
                         <div className="flex-grow ml-4">
                             <div className="relative w-full">
-                            <input type="text" className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10" placeholder="Type your message here...." value={description} onChange={e => setDescription(e.target.value)}/>
+                            <input
+                                type="text"
+                                className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
+                                placeholder="Type your message here...."
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                            />
                             </div>
                         </div>
                         <div className="ml-4">
-                            <button type="submit" className="flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-white px-4 py-1 flex-shrink-0">
+                        <button type="submit" className="flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-white px-4 py-1 flex-shrink-0">
                             <img src={require("../assets/send.png")} width="25px" className="rounded-full"></img>
-                            </button>
+                        </button>
                         </div>
                     </div>
                 </form>
