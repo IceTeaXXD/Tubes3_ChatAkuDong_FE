@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 
 const Chat = () => { 
     const [message, setMessage] = useState('');
+    const [checker, setChecker] = useState("jdkasgsa");
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         try{
@@ -24,7 +25,34 @@ const Chat = () => {
         //reset messagenya
         setMessage('');
     };      
+    const [chatData, setChatData] = useState<{ Question: string, Answer: string, IDChat: number, IDConversation: number, IDUser: number }[]>([]);
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await fetch('http://localhost:3001/1/1');
+                const data = await response.json();
+                console.log(data);
 
+                // Transform each object in the data.chat array to the required format
+                const transformedChatData = data.chat.map((chatObject: any) => ({
+                    Question: chatObject.Question,
+                    Answer: chatObject.Answer,
+                    IDChat: chatObject.IDChat,
+                    IDConversation: chatObject.IDConversation,
+                    IDUser: chatObject.IDUser
+                }));
+
+                // Update the state with the transformed chat data
+                setChatData(transformedChatData);
+
+                console.log("minimal kerja")
+                console.log(chatData)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData();
+    }, [message]);
     return (
         <div className="flex h-screen antialiased text-gray-800">
             <div className="flex flex-col flex-auto p-6">
@@ -52,23 +80,23 @@ const Chat = () => {
                         <div className="flex flex-col h-full">
                         <div className="grid grid-cols-12 gap-y-2">
 
-                            {/* <div className="col-start-1 col-end-8 p-3 rounded-lg">
+                            <div className="col-start-1 col-end-8 p-3 rounded-lg">
                                 <div className="flex flex-row items-center">
                                     <div className = "relative ml-3 text-sm bg-primary py-2 px-4 shadow rounded-xl rounded-tl-none">
                                         <div className = "text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt </div>
                                     </div>
                                 </div>
-                            </div> */}
-                            
-                            <div className="col-start-6 col-end-13 p-3 rounded-lg">
-                                {/* {chat.map((chatItem: { description: string }, index: number) => (
-                                    <div key={index} className="flex items-center justify-start flex-row-reverse mb-2">
-                                        <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none">
-                                            <div>{chatItem.description}</div>
-                                        </div>
-                                    </div>
-                                ))} */}
                             </div>
+                                {/* BLOCK 1 */}
+                                <div className="col-start-13 col-end-6 p-3 rounded-lg justify-end self-end">
+                                    {chatData.length > 0 && chatData.map((chatItem, index) => (
+                                        <div key={index} className="flex items-center justify-start flex-row-reverse mb-2">
+                                            <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none text-right w-max">
+                                                <div>{chatItem.Question}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                         </div>
                         </div>
                     </div>
