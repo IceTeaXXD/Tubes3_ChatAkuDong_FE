@@ -1,9 +1,13 @@
 import { error } from "console";
 import React, { useState, useEffect } from "react";
+import ReactSwitch from 'react-switch';
 
 const Chat = () => { 
     const [message, setMessage] = useState('');
-    const [checker, setChecker] = useState("jdkasgsa");
+    const [checked, setChecked] = useState(true);
+    const handleChange = (val: boolean | ((prevState: boolean) => boolean)) => {
+        setChecked(val)
+      }
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         try{
@@ -64,15 +68,15 @@ const Chat = () => {
                         <p className="text-xs text-gray-500">Lorem ipsum dolor sir amet consectetur</p>
                     </div>
                     <div className="flex items-center justify-between ml-auto">
-                        <label htmlFor="toggle" className="flex items-center cursor-pointer">
-                            <span className="text-xs font-medium mr-2">KMP</span>
-                            <div className="relative">
-                            <input type="checkbox" id="toggle" className="sr-only" />
-                            <div className="block bg-primary w-10 h-5 rounded-full"></div>
-                            <div className="dot absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition"></div>
-                            </div>
-                            <span className="text-xs font-medium mr-2">BM</span>
-                        </label>
+                        <p className="text-xs text-gray-500 m-2">KMP</p>
+                        <ReactSwitch
+                            checked={checked}
+                            onChange={handleChange}
+                            uncheckedIcon={false}
+                            checkedIcon={false}
+                            onColor="#4849A3"
+                        />
+                        <p className="text-xs text-gray-500 m-2">BM</p>
                     </div>
                 </div>
                     {/* isi chat */}
