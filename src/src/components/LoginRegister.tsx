@@ -18,6 +18,7 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
     const [activeTab, setActiveTab] = useState("login");
     const [users, setUsers] = useState<User[]>([]);
     const [loginFailed, setLoginFailed] = useState(false);
+    const [registerFailed, setRegisterFailed] = useState(false);
 
     useEffect(() => {
         fetchUsers();
@@ -55,22 +56,30 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
         event.preventDefault();
         console.log("Registering with username:",registerUsername,"and password:",registerPassword);
         try {
-            const response = await fetch("http://localhost:3001/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username: registerUsername,
-                    password: registerPassword,
-                }),
-            });
-            const data = await response.json();
-            console.log("Registration successful:", data);
-            setActiveTab("login");
-            fetchUsers();
+            const user = users.find((u: User) => u.Username === registerUsername);
+            if (user) {
+                console.error("Registration failed: username already exists");
+                setRegisterFailed(true)
+            } else {
+                const response = await fetch("http://localhost:3001/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: registerUsername,
+                        password: registerPassword,
+                    }),
+                });
+                const data = await response.json();
+                console.log("Registration successful:", data);
+                setActiveTab("login");
+                fetchUsers();
+                setRegisterFailed(false)
+            }
         } catch (error) {
             console.error("Error registering user: ", error);
+            setRegisterFailed(true)
         }
     };
 
@@ -85,7 +94,13 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
                                 ? "bg-primary text-white"
                                 : "text-gray-500"
                             } px-4 py-2 rounded-l-lg font-[Poppins]`}
-                            onClick={() => setActiveTab("login")}
+                            onClick={() => {
+                                setActiveTab("login")
+                                setRegisterUsername("")
+                                setRegisterPassword("")
+                                setLoginFailed(false)
+                                setRegisterFailed(false)
+                            }}
                         >
                         Login
                         </button>
@@ -95,7 +110,13 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
                                 ? "bg-primary text-white"
                                 : "text-gray-500"
                             } px-4 py-2 rounded-r-lg font-[Poppins]`}
-                            onClick={() => setActiveTab("register")}
+                            onClick={() => {
+                                setActiveTab("register")
+                                setUsername("")
+                                setPassword("")
+                                setLoginFailed(false)
+                                setRegisterFailed(false)
+                            }}
                         >
                         Register
                         </button>
@@ -184,6 +205,13 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
                         <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mt-4" role="alert">
                             <p className="font-bold">Login failed.</p>
                             <p>Please check your username and password and try again.</p>
+                        </div>
+                    )}
+
+                    {registerFailed && (
+                        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mt-4" role="alert">
+                            <p className="font-bold">Registration failed.</p>
+                            <p>Please try again with a different username.</p>
                         </div>
                     )}
                 </div>
