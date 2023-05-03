@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface User {
     IDUser: number;
@@ -19,7 +20,6 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
     const [users, setUsers] = useState<User[]>([]);
     const [loginFailed, setLoginFailed] = useState(false);
     const [registerFailed, setRegisterFailed] = useState(false);
-
     useEffect(() => {
         fetchUsers();
     }, []);
@@ -31,6 +31,7 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
             .catch((error) => console.error("Error fetching users: ", error));
     };
 
+    const navigate = useNavigate()
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         fetchUsers();
@@ -41,6 +42,7 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
             );
             if (user) {
                 console.log("Login successful:", user);
+                navigate('/home');
                 onLogin();
             } else {
                 console.error("Login failed: incorrect username or password");
