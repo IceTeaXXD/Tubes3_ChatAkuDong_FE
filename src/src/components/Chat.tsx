@@ -4,12 +4,15 @@ import ReactSwitch from 'react-switch';
 
 const Chat = () => { 
     const [message, setMessage] = useState('');
+    const [answer, setAnswer] = useState('');
     const [checked, setChecked] = useState(true);
+    const [submit, setSubmit] = useState(false);
     const handleChange = (val: boolean | ((prevState: boolean) => boolean)) => {
         setChecked(val)
-      }
+    }
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
+        setSubmit(true);
         try{
             const response = await fetch('http://localhost:3001/1/1/chat', {
                 method: 'POST',
@@ -18,7 +21,7 @@ const Chat = () => {
                 },
                 body: JSON.stringify({
                     Question: message,
-                    Answer: "haihaia"
+                    Answer: answer
                 })
             });
             console.log(response);
@@ -28,6 +31,7 @@ const Chat = () => {
         }
         //reset messagenya
         setMessage('');
+        setSubmit(false);
     };      
     const [chatData, setChatData] = useState<{ Question: string, Answer: string, IDChat: number, IDConversation: number, IDUser: number }[]>([]);
     useEffect(() => {
@@ -35,7 +39,7 @@ const Chat = () => {
             try {
                 const response = await fetch('http://localhost:3001/1/1');
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
 
                 // Transform each object in the data.chat array to the required format
                 const transformedChatData = data.chat.map((chatObject: any) => ({
@@ -49,14 +53,13 @@ const Chat = () => {
                 // Update the state with the transformed chat data
                 setChatData(transformedChatData);
 
-                console.log("minimal kerja")
-                console.log(chatData)
+                // console.log(chatData)
             } catch (error) {
-                console.log(error);
+                // console.log(error);
             }
         }
         fetchData();
-    }, [message]);
+    }, [submit]);
     return (
         <div className="flex h-screen antialiased text-gray-800">
             <div className="flex flex-col flex-auto p-6">
@@ -92,11 +95,18 @@ const Chat = () => {
                                 </div>
                             </div>
                                 {/* BLOCK 1 */}
-                                <div className="col-start-13 col-end-6 p-3 rounded-lg justify-end self-end">
+                                <div className="col-start-13 col-end-1 p-3 rounded-lg justify-end self-end">
                                     {chatData.length > 0 && chatData.map((chatItem, index) => (
-                                        <div key={index} className="flex items-center justify-start flex-row-reverse mb-2">
-                                            <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none text-right w-max">
-                                                <div>{chatItem.Question}</div>
+                                        <div key={index}>
+                                            <div className="flex items-center justify-start flex-row-reverse mb-2">
+                                                <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none text-right w-max">
+                                                    <div>{chatItem.Question}</div>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-row items-center">
+                                                <div className = "relative ml-3 text-sm bg-primary py-2 px-4 shadow rounded-xl rounded-tl-none">
+                                                    <div className = "text-white">{chatItem.Answer}</div>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
