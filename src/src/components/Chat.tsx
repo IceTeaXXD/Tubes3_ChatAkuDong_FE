@@ -51,17 +51,51 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
                     IDConversation: chatObject.IDConversation,
                     IDUser: chatObject.IDUser,
                 }));
-
+                
                 // Update the state with the transformed chat data
                 setChatData(transformedChatData);
             } catch (error) {
                 console.log(error);
             }
         }
-
         fetchData();
     }, [submit, userID, convID]);
+    const [filteredConvData, setFilteredConvData] = useState<{ IDConversation: number; IDUser: number; Date: Date ; Topic : string}>();
+    const [histData, setHistData] = useState<{
+        IDConversation: number;
+        IDUser: number;
+        Topic: string;
+        Date: Date;
+      }[]>([]);
+    async function getConv() {
+        try {
+          const response = await fetch(
+            `https://tubes3chatakudongbe-production.up.railway.app/${userID}`
+          );
+          const data = await response.json();
     
+          // Transform each object in the data.conversation array to the required format
+          const transformedData = data.conversation.map((obj: any) => ({
+            IDConversation: obj.IDConversation,
+            IDUser: obj.IDUser,
+            Topic: obj.Topic,
+            Date: new Date(obj.Date),
+          }));
+          const filteredData = transformedData.filter((item: { IDConversation: number; }) => item.IDConversation === convID);
+          console.log(filteredData);
+          // Update state
+          console.log(transformedData);
+          setHistData(transformedData);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    useEffect(() => {
+        getConv()
+        const filteredData = histData.filter((item: { IDConversation: number; }) => item.IDConversation === convID);
+        setFilteredConvData(filteredData[0]);
+    }, [convID, histData]);
+
     return (
         <div className="flex h-screen antialiased text-gray-800">
             <div className="flex flex-col flex-auto p-6">
@@ -69,8 +103,8 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
                 <div className="flex flex-row p-3 border-2 rounded-xl shadow-md m-3 items-center">
                     <img src={require("../assets/chat.png")} width="" />
                     <div className="flex flex-col pl-4">
-                        <p className="font-bold text-xm">DD/MM/YYYY</p>
-                        <p className="text-xs text-gray-500">Lorem ipsum dolor sir amet consectetur</p>
+                        <p className="font-bold text-xm">{filteredConvData?.Date.toLocaleDateString()}</p>
+                        <p className="text-xs text-gray-500">{filteredConvData?.Topic}</p>
                     </div>
                     <div className="flex items-center justify-between ml-auto">
                         <p className="text-xs text-gray-500 m-2">KMP</p>
