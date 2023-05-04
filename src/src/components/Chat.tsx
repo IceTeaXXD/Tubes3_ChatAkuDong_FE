@@ -17,7 +17,7 @@ const Chat: React.FC<Props> = ({userID}) => {
         e.preventDefault();
         setSubmit(true);
         try{
-            const response = await fetch('http://localhost:3001/'+userID+'/1/chat', {
+            const response = await fetch('https://tubes3chatakudongbe-production.up.railway.app/'+userID+'/1/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ const Chat: React.FC<Props> = ({userID}) => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch('http://localhost:3001/'+userID+'/3');
+                const response = await fetch('https://tubes3chatakudongbe-production.up.railway.app/'+userID+'/3');
                 const data = await response.json();
                 // console.log(data);
 
