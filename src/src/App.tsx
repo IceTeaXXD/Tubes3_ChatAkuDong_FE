@@ -3,6 +3,7 @@ import LoginRegister from './components/LoginRegister';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ConversationPage from './pages/ConversationPage';
 import HomePage from './pages/HomePage';
+import History from './components/History';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
