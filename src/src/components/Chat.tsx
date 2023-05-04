@@ -90,23 +90,16 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
                         <div className="grid grid-cols-12 gap-y-2">
 
                             <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                                <div className="flex flex-row items-center">
-                                    <div className = "relative ml-3 text-sm bg-primary py-2 px-4 shadow rounded-xl rounded-tl-none">
-                                        <div className = "text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt </div>
-                                    </div>
-                                </div>
                             </div>
                                 {/* BLOCK 1 */}
                                 <div className="col-start-13 col-end-1 p-3 rounded-lg justify-end self-end">
                                     {chatData.length > 0 && chatData.map((chatItem, index) => (
                                         <div key={index}>
-                                            {/* Make this only in the half right */}
                                             <div className="flex items-center justify-start flex-row-reverse mb-2">
                                                 <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none text-right w-max">
                                                     <div>{chatItem.Question}</div>
                                                 </div>
                                             </div>
-                                            {/* Make this only in the half left */}
                                             <div className="flex flex-row items-center">
                                                 <div className = "relative ml-3 text-sm bg-primary py-2 px-4 shadow rounded-xl rounded-tl-none">
                                                     <div className = "text-white">{chatItem.Answer}</div>
