@@ -50,14 +50,14 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
                     IDConversation: chatObject.IDConversation,
                     IDUser: chatObject.IDUser,
                 }));
-                                const sortedChatData = transformedChatData.sort((a: { IDChat: number }, b: { IDChat: number }) => a.IDChat - b.IDChat);
+                const sortedChatData = transformedChatData.sort((a: { IDChat: number }, b: { IDChat: number }) => a.IDChat - b.IDChat);
                 setChatData(sortedChatData);
             } catch (error) {
                 console.log(error);
             }
         }
         fetchData();
-    }, [submit, userID, convID]);
+    });
     const [filteredConvData, setFilteredConvData] = useState<{ IDConversation: number; IDUser: number; Date: Date ; Topic : string}>();
     const [histData, setHistData] = useState<{
         IDConversation: number;
