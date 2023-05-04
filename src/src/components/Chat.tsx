@@ -57,7 +57,7 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
             }
         }
         fetchData();
-    });
+    }, [submit, userID, convID]);
     const [filteredConvData, setFilteredConvData] = useState<{ IDConversation: number; IDUser: number; Date: Date ; Topic : string}>();
     const [histData, setHistData] = useState<{
         IDConversation: number;
