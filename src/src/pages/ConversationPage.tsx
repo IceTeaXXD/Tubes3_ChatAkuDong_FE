@@ -15,7 +15,7 @@ const ConvesationPage: React.FC<Props> = ({userID}) => {
                     <SideBar />
                     </div>
                     <div className="w-7/8">
-                    <History />
+                    <History userID={userID}/>
                     </div>
                     <div className="w-full bg-white">
                     <Chat userID={userID}/>

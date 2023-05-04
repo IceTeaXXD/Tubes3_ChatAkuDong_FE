@@ -2,7 +2,10 @@ import React from "react";
 import SideBar from "../components/SideBar";
 import History from "../components/History";
 
-const HomePage = () => {
+interface HistProps{
+    userID: number;
+}
+const HomePage: React.FC<HistProps> = ({userID}) => {
     return(
         <div>
             <div className="bg-bg w-screen h-screen overflow-x-auto">
@@ -11,7 +14,7 @@ const HomePage = () => {
                     <SideBar />
                     </div>
                     <div className="w-7/8">
-                    <History />
+                    <History userID = {userID}/>
                     </div>
                     <div className="w-full">
                         <p>PLACEHOLDER</p>

@@ -1,31 +1,44 @@
 import React, { useEffect, useState } from "react";
-const History = () => {
+import { useNavigate } from "react-router-dom";
+
+interface HistProps{
+    userID: number;
+}
+
+const History : React.FC<HistProps>= ({userID}) => {
     const [histData, setHistData] = useState<{ IDConversation: number, IDUser: number, Topic : string,  Date :Date }[]>([]);
-    
+    const [curConvId, setCurConvId] = useState(0);
     async function fetchData() {
         try {
-          const response = await fetch('https://tubes3chatakudongbe-production.up.railway.app/1');
-          const data = await response.json();
-      
-          // Transform each object in the data.conversation array to the required format
-          const transformedData = data.conversation.map((obj: any) => ({
-            IDConversation: obj.IDConversation,
-            IDUser: obj.IDUser,
-            Topic: obj.Topic,
-            Date: new Date(obj.Date),
-          }));
-      
-          // Update state
-          console.log(transformedData)
-          setHistData(transformedData);
+            const response = await fetch(`https://tubes3chatakudongbe-production.up.railway.app/${userID}`);
+            const data = await response.json();
+
+            // Transform each object in the data.conversation array to the required format
+            const transformedData = data.conversation.map((obj: any) => ({
+                IDConversation: obj.IDConversation,
+                IDUser: obj.IDUser,
+                Topic: obj.Topic,
+                Date: new Date(obj.Date),
+            }));
+
+            // Update state
+            console.log(transformedData)
+            setHistData(transformedData);
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      }
+    }
       
     useEffect(() => {
         fetchData();
     }, []);
+    
+    const navigate = useNavigate();
+    
+    const handleButtonClick = () => {
+        navigate(userID + '/1');
+    };
+
     return (
         <div className="container mx-auto my-10 items-center justify-center p-2">
             <div className = "flex flex-row mb-5">
@@ -35,14 +48,14 @@ const History = () => {
             <div>
                 {histData.map((obj, index) => ( 
                     <div key={index}>
-                        <button className = "w-full">
+                        <button className="w-full" onClick={handleButtonClick }>
                             <div className="flex flex-col overflow-y-auto">
-                                <div className="flex flex-row py-2 px-2 justify-center items-center border-l-2 border-primary bg-blue-200">
+                                <div className="flex flex-row py-2 px-2 justify-center items-center border-l-2 border-primary">
                                     <div className="w-1/4">
                                         <img
-                                        src={require('../assets/chat.png')}
-                                        alt="chat logo"
-                                        width="40px"
+                                            src={require('../assets/chat.png')}
+                                            alt="chat logo"
+                                            width="40px"
                                         />
                                     </div>
                                     <div className="w-full ml-2">
@@ -55,8 +68,8 @@ const History = () => {
                     </div>
                 ))}
             </div>
-            </div>
+        </div>
     )
 }
 
-export default History
+export default History;

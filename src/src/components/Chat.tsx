@@ -40,7 +40,7 @@ const Chat: React.FC<Props> = ({userID}) => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch('https://tubes3chatakudongbe-production.up.railway.app/'+userID+'/3');
+                const response = await fetch('https://tubes3chatakudongbe-production.up.railway.app/'+userID+'/1');
                 const data = await response.json();
                 // console.log(data);
 

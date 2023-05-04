@@ -20,7 +20,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginRegister onLogin={handleLogin} userID={userID} setUserID={handleSetUserID} />} />
             <Route path={"/" + userID} element={<ConversationPage userID={userID}/>} />
-            <Route path="/home" element={<HomePage/>} />
+            {/* <Route path={"/" + userID} element={<HomePage userID={userID}/>} /> */}
           </Routes>
         </Router>
     </>
