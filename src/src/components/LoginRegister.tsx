@@ -25,7 +25,7 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
     }, []);
         
     const fetchUsers = () => {
-        fetch("http://localhost:3001/login")
+        fetch("https://tubes3chatakudongbe-production.up.railway.app/login")
             .then((response) => response.json())
             .then((data) => setUsers(data.users))
             .catch((error) => console.error("Error fetching users: ", error));
@@ -63,7 +63,7 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
                 console.error("Registration failed: username already exists");
                 setRegisterFailed(true)
             } else {
-                const response = await fetch("http://localhost:3001/register", {
+                const response = await fetch("https://tubes3chatakudongbe-production.up.railway.app/register", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
