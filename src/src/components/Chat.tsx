@@ -1,5 +1,4 @@
-import { error } from "console";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactSwitch from 'react-switch';
 
 interface Props {
@@ -51,9 +50,8 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
                     IDConversation: chatObject.IDConversation,
                     IDUser: chatObject.IDUser,
                 }));
-                
-                // Update the state with the transformed chat data
-                setChatData(transformedChatData);
+                                const sortedChatData = transformedChatData.sort((a: { IDChat: number }, b: { IDChat: number }) => a.IDChat - b.IDChat);
+                setChatData(sortedChatData);
             } catch (error) {
                 console.log(error);
             }
@@ -95,6 +93,13 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
         const filteredData = histData.filter((item: { IDConversation: number; }) => item.IDConversation === convID);
         setFilteredConvData(filteredData[0]);
     }, [convID, histData]);
+    
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+        }
+    }, [chatData]);
 
     return (
         <div className="flex h-screen antialiased text-gray-800">
@@ -126,7 +131,7 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
                             <div className="col-start-1 col-end-8 p-3 rounded-lg">
                             </div>
                                 {/* BLOCK 1 */}
-                                <div className="col-start-13 col-end-1 p-3 rounded-lg justify-end self-end">
+                                <div className="col-start-13 col-end-1 p-3 rounded-lg justify-end self-end" ref={messagesEndRef}>
                                     {chatData.length > 0 && chatData.map((chatItem, index) => (
                                         <div key={index}>
                                             <div className="flex items-center justify-start flex-row-reverse mb-2">
