@@ -7,11 +7,13 @@ interface Props {
 }
 const Chat: React.FC<Props> = ({userID,convID}) => { 
     const [message, setMessage] = useState('');
+    const [method, setMethod] = useState(0);
     const [answer, setAnswer] = useState('');
-    const [checked, setChecked] = useState(true);
+    const [checked, setChecked] = useState(false);
     const [submit, setSubmit] = useState(false);
     const handleChange = (val: boolean | ((prevState: boolean) => boolean)) => {
         setChecked(val)
+        setMethod(val ? 0 : 1);
     }
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -24,7 +26,8 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
                 },
                 body: JSON.stringify({
                     Question: message,
-                    Answer: answer
+                    Answer: answer,
+                    SearchMethod: method
                 })
             });
             console.log(response);
@@ -35,7 +38,7 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
         //reset messagenya
         setMessage('');
         setSubmit(false);
-    };      
+    };    
     const [chatData, setChatData] = useState<{ Question: string, Answer: string, IDChat: number, IDConversation: number, IDUser: number }[]>([]);
     useEffect(() => {
         async function fetchData() {

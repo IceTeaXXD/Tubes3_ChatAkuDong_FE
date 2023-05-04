@@ -14,7 +14,7 @@ const HomePage: React.FC<HistProps> = ({userID, convID,setConvID}) => {
             <div className="bg-bg w-screen h-screen overflow-x-auto">
                 <div className="flex flex-row">
                     <div className="w-1/12">
-                    <SideBar />
+                    <SideBar userID = {userID}/>
                     </div>
                     <div className="w-7/8">
                     <History userID={userID} convID={convID} setConvID={setConvID} />
