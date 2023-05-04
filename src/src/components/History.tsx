@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 
 interface HistProps{
     userID: number;
+    convID: number;
+    setConvID: (id: number) => void;
 }
 
-const History : React.FC<HistProps>= ({userID}) => {
+const History : React.FC<HistProps>= ({userID,convID, setConvID}) => {
     const [histData, setHistData] = useState<{ IDConversation: number, IDUser: number, Topic : string,  Date :Date }[]>([]);
-    const [curConvId, setCurConvId] = useState(0);
+    // const [curConvId, setConvID] = useState(0);
     async function fetchData() {
         try {
             const response = await fetch(`https://tubes3chatakudongbe-production.up.railway.app/${userID}`);
@@ -35,9 +37,10 @@ const History : React.FC<HistProps>= ({userID}) => {
     
     const navigate = useNavigate();
     
-    const handleButtonClick = () => {
-        navigate(userID + '/1');
-    };
+    const handleButtonClick = (obj: { IDConversation: number }) => {
+        navigate(`/${userID}/${obj.IDConversation}`);
+        setConvID(obj.IDConversation);
+    };      
 
     return (
         <div className="container mx-auto my-10 items-center justify-center p-2">
@@ -48,7 +51,7 @@ const History : React.FC<HistProps>= ({userID}) => {
             <div>
                 {histData.map((obj, index) => ( 
                     <div key={index}>
-                        <button className="w-full" onClick={handleButtonClick }>
+                        <button className="w-full" onClick={() => handleButtonClick(obj)}>
                             <div className="flex flex-col overflow-y-auto">
                                 <div className="flex flex-row py-2 px-2 justify-center items-center border-l-2 border-primary">
                                     <div className="w-1/4">

@@ -4,8 +4,9 @@ import ReactSwitch from 'react-switch';
 
 interface Props {
     userID: number;
+    convID: number;
 }
-const Chat: React.FC<Props> = ({userID}) => { 
+const Chat: React.FC<Props> = ({userID,convID}) => { 
     const [message, setMessage] = useState('');
     const [answer, setAnswer] = useState('');
     const [checked, setChecked] = useState(true);
@@ -17,7 +18,7 @@ const Chat: React.FC<Props> = ({userID}) => {
         e.preventDefault();
         setSubmit(true);
         try{
-            const response = await fetch('https://tubes3chatakudongbe-production.up.railway.app/'+userID+'/1/chat', {
+            const response = await fetch('https://tubes3chatakudongbe-production.up.railway.app/'+userID+'/' + convID + '/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -39,29 +40,28 @@ const Chat: React.FC<Props> = ({userID}) => {
     const [chatData, setChatData] = useState<{ Question: string, Answer: string, IDChat: number, IDConversation: number, IDUser: number }[]>([]);
     useEffect(() => {
         async function fetchData() {
-            try {
-                const response = await fetch('https://tubes3chatakudongbe-production.up.railway.app/'+userID+'/1');
-                const data = await response.json();
-                // console.log(data);
-
-                // Transform each object in the data.chat array to the required format
-                const transformedChatData = data.chat.map((chatObject: any) => ({
-                    Question: chatObject.Question,
-                    Answer: chatObject.Answer,
-                    IDChat: chatObject.IDChat,
-                    IDConversation: chatObject.IDConversation,
-                    IDUser: chatObject.IDUser
-                }));
-
-                // Update the state with the transformed chat data
-                setChatData(transformedChatData);
-                // console.log(chatData)
-            } catch (error) {
-                console.log(error);
-            }
+          try {
+            const response = await fetch(`https://tubes3chatakudongbe-production.up.railway.app/${userID}/${convID}`);
+            const data = await response.json();
+      
+            // Transform each object in the data.chat array to the required format
+            const transformedChatData = data.chat.map((chatObject: any) => ({
+              Question: chatObject.Question,
+              Answer: chatObject.Answer,
+              IDChat: chatObject.IDChat,
+              IDConversation: chatObject.IDConversation,
+              IDUser: chatObject.IDUser,
+            }));
+      
+            // Update the state with the transformed chat data
+            setChatData(transformedChatData);
+          } catch (error) {
+            console.log(error);
+          }
         }
+      
         fetchData();
-    }, [submit]);
+      }, [submit, userID, convID]);      
     return (
         <div className="flex h-screen antialiased text-gray-800">
             <div className="flex flex-col flex-auto p-6">
@@ -100,11 +100,13 @@ const Chat: React.FC<Props> = ({userID}) => {
                                 <div className="col-start-13 col-end-1 p-3 rounded-lg justify-end self-end">
                                     {chatData.length > 0 && chatData.map((chatItem, index) => (
                                         <div key={index}>
+                                            {/* Make this only in the half right */}
                                             <div className="flex items-center justify-start flex-row-reverse mb-2">
                                                 <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none text-right w-max">
                                                     <div>{chatItem.Question}</div>
                                                 </div>
                                             </div>
+                                            {/* Make this only in the half left */}
                                             <div className="flex flex-row items-center">
                                                 <div className = "relative ml-3 text-sm bg-primary py-2 px-4 shadow rounded-xl rounded-tl-none">
                                                     <div className = "text-white">{chatItem.Answer}</div>

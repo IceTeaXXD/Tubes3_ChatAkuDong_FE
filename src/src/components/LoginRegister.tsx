@@ -12,8 +12,8 @@ interface LoginProps {
     userID: number;
     setUserID: (id: number | ((prevState: number) => number)) => void;
 }
-  
-const LoginRegister: React.FC<LoginProps> = ({ onLogin, userID, setUserID }) => {
+
+const LoginRegister: React.FC<LoginProps> = ({ onLogin, setUserID }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [registerUsername, setRegisterUsername] = useState("");
