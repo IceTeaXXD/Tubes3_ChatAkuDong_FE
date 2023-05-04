@@ -40,28 +40,28 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
     const [chatData, setChatData] = useState<{ Question: string, Answer: string, IDChat: number, IDConversation: number, IDUser: number }[]>([]);
     useEffect(() => {
         async function fetchData() {
-          try {
-            const response = await fetch(`https://tubes3chatakudongbe-production.up.railway.app/${userID}/${convID}`);
-            const data = await response.json();
-      
-            // Transform each object in the data.chat array to the required format
-            const transformedChatData = data.chat.map((chatObject: any) => ({
-              Question: chatObject.Question,
-              Answer: chatObject.Answer,
-              IDChat: chatObject.IDChat,
-              IDConversation: chatObject.IDConversation,
-              IDUser: chatObject.IDUser,
-            }));
-      
-            // Update the state with the transformed chat data
-            setChatData(transformedChatData);
-          } catch (error) {
-            console.log(error);
-          }
+            try {
+                const response = await fetch(`https://tubes3chatakudongbe-production.up.railway.app/${userID}/${convID}`);
+                const data = await response.json();
+                // Transform each object in the data.chat array to the required format
+                const transformedChatData = data.chat.map((chatObject: any) => ({
+                    Question: chatObject.Question,
+                    Answer: chatObject.Answer,
+                    IDChat: chatObject.IDChat,
+                    IDConversation: chatObject.IDConversation,
+                    IDUser: chatObject.IDUser,
+                }));
+
+                // Update the state with the transformed chat data
+                setChatData(transformedChatData);
+            } catch (error) {
+                console.log(error);
+            }
         }
-      
+
         fetchData();
-      }, [submit, userID, convID]);      
+    }, [submit, userID, convID]);
+    
     return (
         <div className="flex h-screen antialiased text-gray-800">
             <div className="flex flex-col flex-auto p-6">
@@ -101,7 +101,7 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
                                                 </div>
                                             </div>
                                             <div className="flex flex-row items-center">
-                                                <div className = "relative ml-3 text-sm bg-primary py-2 px-4 shadow rounded-xl rounded-tl-none">
+                                                <div className = "relative ml-3 text-sm bg-primary py-2 px-4 shadow rounded-xl rounded-tl-none" style={{ whiteSpace: 'pre-wrap' }}>
                                                     <div className = "text-white">{chatItem.Answer}</div>
                                                 </div>
                                             </div>
