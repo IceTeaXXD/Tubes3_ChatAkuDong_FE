@@ -1,6 +1,29 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 const History = () => {
+    const [histData, setHistData] = useState<{ IDConversation: number, IDUser: number, Topic : string,  Date :Date }[]>([]);
+    
+    async function fetchData() {
+        try {
+            const response = await fetch('http://localhost:3001/1')
+            const data = await response.json();
+
+            // Transform each object in the data.chat array to the required format
+            const transformedData = data.chat.map((obj: any) => ({
+                IDConversation : obj.IDConversation,
+                IDUser : obj.IDUser,
+                Topic : obj.Topic,
+                Date : obj.Date
+            }));
+            //update state
+            setHistData(transformedData)
+            console.log(transformedData)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        fetchData();
+    }, []);
     return (
         <div className="container mx-auto my-10 items-center justify-center p-2">
             <div className = "flex flex-row mb-5">

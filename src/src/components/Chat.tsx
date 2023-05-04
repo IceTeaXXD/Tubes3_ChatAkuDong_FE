@@ -2,7 +2,10 @@ import { error } from "console";
 import React, { useState, useEffect } from "react";
 import ReactSwitch from 'react-switch';
 
-const Chat = () => { 
+interface Props {
+    userID: number;
+}
+const Chat: React.FC<Props> = ({userID}) => { 
     const [message, setMessage] = useState('');
     const [answer, setAnswer] = useState('');
     const [checked, setChecked] = useState(true);
@@ -14,7 +17,7 @@ const Chat = () => {
         e.preventDefault();
         setSubmit(true);
         try{
-            const response = await fetch('http://localhost:3001/1/1/chat', {
+            const response = await fetch('http://localhost:3001/'+userID+'/1/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -37,7 +40,7 @@ const Chat = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch('http://localhost:3001/1/1');
+                const response = await fetch('http://localhost:3001/'+userID+'/3');
                 const data = await response.json();
                 // console.log(data);
 
@@ -52,10 +55,9 @@ const Chat = () => {
 
                 // Update the state with the transformed chat data
                 setChatData(transformedChatData);
-
                 // console.log(chatData)
             } catch (error) {
-                // console.log(error);
+                console.log(error);
             }
         }
         fetchData();

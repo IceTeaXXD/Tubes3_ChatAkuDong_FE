@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, SetStateAction, Dispatch } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface User {
@@ -9,9 +9,11 @@ interface User {
 
 interface LoginProps {
     onLogin: () => any;
+    userID: number;
+    setUserID: (id: number | ((prevState: number) => number)) => void;
 }
-
-const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
+  
+const LoginRegister: React.FC<LoginProps> = ({ onLogin, userID, setUserID }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [registerUsername, setRegisterUsername] = useState("");
@@ -39,10 +41,14 @@ const LoginRegister: React.FC<LoginProps> = ({ onLogin }) => {
         if (users.length > 0) {
             const user = users.find(
                 (u: User) => u.Username === username && u.Password === password
-            );
+                );
             if (user) {
                 console.log("Login successful:", user);
-                navigate('/home');
+                // get id from user
+                const userId = user.IDUser;
+                // update interface here
+                setUserID(userId); // update the userID state
+                navigate('/' + userId);
                 onLogin();
             } else {
                 console.error("Login failed: incorrect username or password");
