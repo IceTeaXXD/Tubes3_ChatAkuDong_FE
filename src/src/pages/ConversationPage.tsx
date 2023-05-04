@@ -1,8 +1,12 @@
 import React from "react";
 import SideBar from "../components/SideBar";
 import History from "../components/History";
+import Chat from "../components/Chat";
+interface Props {
+    userID: number;
+}
 
-const HomePage = () => {
+const ConvesationPage: React.FC<Props> = ({userID}) => {
     return(
         <div>
             <div className="bg-bg w-screen h-screen overflow-x-auto">
@@ -13,8 +17,8 @@ const HomePage = () => {
                     <div className="w-7/8">
                     <History />
                     </div>
-                    <div className="w-full">
-                        <p>PLACEHOLDER</p>
+                    <div className="w-full bg-white">
+                    <Chat userID={userID}/>
                     </div>
                 </div>
             </div>
@@ -22,4 +26,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default ConvesationPage;
