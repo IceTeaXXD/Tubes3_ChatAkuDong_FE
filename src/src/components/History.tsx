@@ -82,11 +82,11 @@ const History: React.FC<HistProps> = ({ userID, convID, setConvID }) => {
         {histData.map((obj, index) => (
           <div key={index} className="relative">
           <button
-            className={`w-full ${clickedIndex === index ? "bg-blue-200" : "bg-white"}`}
+            className={`w-full ${clickedIndex === index ? "bg-blue-200 border-l-2 border-primary" : "bg-white"}`}
             onClick={() => handleButtonClick(obj, index)}
           >
             <div className="flex flex-col overflow-y-auto">
-              <div className="flex flex-row py-2 px-2 justify-center items-center border-l-2 border-primary">
+              <div className="flex flex-row py-2 px-2 justify-center items-center">
                 <div className="w-1/4">
                   <img src={require("../assets/chat.png")} alt="chat logo" width="40px" />
                 </div>

@@ -135,20 +135,26 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
                             </div>
                                 {/* BLOCK 1 */}
                                 <div className="col-start-13 col-end-1 p-3 rounded-lg justify-end self-end" ref={messagesEndRef}>
-                                    {chatData.length > 0 && chatData.map((chatItem, index) => (
-                                        <div key={index}>
-                                            <div className="flex items-center justify-start flex-row-reverse mb-2">
-                                                <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none text-right w-max">
-                                                    <div>{chatItem.Question}</div>
-                                                </div>
-                                            </div>
-                                            <div className="flex flex-row items-center">
-                                                <div className = "relative ml-3 text-sm bg-primary py-2 px-4 shadow rounded-xl rounded-tl-none" style={{ whiteSpace: 'pre-wrap' }}>
-                                                    <div className = "text-white">{chatItem.Answer}</div>
-                                                </div>
-                                            </div>
+                                {chatData.length > 0 && chatData.map((chatItem, index) => (
+                                <div key={index} className="grid grid-cols-12 gap-y-2">
+                                    {/* User question */}
+                                    <div className="col-start-6 col-end-13">
+                                    <div className="flex items-center justify-start flex-row-reverse mb-2">
+                                        <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none text-right w-max">
+                                        <div>{chatItem.Question}</div>
                                         </div>
-                                    ))}
+                                    </div>
+                                    </div>
+                                    {/* Bot answer */}
+                                    <div className="col-start-1 col-end-8 justify-end">
+                                    <div className="flex flex-row items-center">
+                                        <div className="relative ml-3 text-sm bg-primary py-2 px-4 shadow rounded-xl rounded-tl-none" style={{ whiteSpace: 'pre-wrap' }}>
+                                        <div className="text-white">{chatItem.Answer}</div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                ))}
                                 </div>
                         </div>
                         </div>
