@@ -6,7 +6,7 @@ interface Props {
 const SideBar: React.FC<Props> = ({userID}) => {
     const [submit, setSubmit] = useState(false);
     const [conversation, setConversation] = useState<{
-        Question : string,
+        Topic : string,
     }[]>([]);
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -18,7 +18,7 @@ const SideBar: React.FC<Props> = ({userID}) => {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              Question: "New Conversation",
+              Topic: "New Conversation",
             })
           });
           if (!response.ok) {

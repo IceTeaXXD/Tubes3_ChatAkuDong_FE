@@ -109,7 +109,7 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
             <div className="flex flex-col flex-auto p-6">
                 <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-bg h-full p-4">
                 <div className="flex flex-row p-3 border-2 rounded-xl shadow-md m-3 items-center">
-                    <img src={require("../assets/chat.png")} width="" />
+                    <img src={require("../assets/chat.png")} width="40px" />
                     <div className="flex flex-col pl-4">
                         <p className="font-bold text-xm">{filteredConvData?.Date.toLocaleDateString()}</p>
                         <p className="text-xs text-gray-500">{filteredConvData?.Topic}</p>
