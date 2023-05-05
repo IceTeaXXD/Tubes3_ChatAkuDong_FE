@@ -40,7 +40,7 @@ const History: React.FC<HistProps> = ({ userID, convID, setConvID }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  });
 
   const navigate = useNavigate();
   // if IDConversation is not null, change button color
