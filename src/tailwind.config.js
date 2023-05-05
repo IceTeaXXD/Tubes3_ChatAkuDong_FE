@@ -10,6 +10,7 @@ module.exports = {
         secondary : '#2c2d63',
         bg : '#F9F9FB',
     },
+    display: ["group-hover"],
   },
   plugins: [],
 }
