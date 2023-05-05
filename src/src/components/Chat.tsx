@@ -122,6 +122,7 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
                             uncheckedIcon={false}
                             checkedIcon={false}
                             onColor="#4849A3"
+                            offColor="#0fae0b"
                         />
                         <p className="text-xs text-gray-500 m-2">BM</p>
                     </div>
