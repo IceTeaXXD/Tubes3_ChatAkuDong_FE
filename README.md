@@ -31,7 +31,7 @@ List the ready features here:
 1. To run locally, make sure you have node and npm installed on your machine. Check [_here_](https://nodejs.org/en/download/) to install node and npm.
 2. Clone this repository.
 ```
-git clone github.com/IceTeaXXD/Tubes3_ChatAkuDong_FE.git
+git clone https://github.com/IceTeaXXD/Tubes3_ChatAkuDong_FE.git
 ```
 3. Install all dependencies
 ```
