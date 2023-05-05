@@ -21,7 +21,7 @@ const ConvesationPage: React.FC<Props> = ({userID, convID,setConvID}) => {
                     <div className="w-1/12">
                     <SideBar userID={userID} flagCol={checker}/>
                     </div>
-                    <div className="w-2/6">
+                    <div className="w-3/12">
                     <History userID={userID} convID={convID} setConvID={setConvID}/>
                     </div>
                     <div className="w-full bg-white">
