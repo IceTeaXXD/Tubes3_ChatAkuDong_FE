@@ -29,10 +29,11 @@ const History: React.FC<HistProps> = ({ userID, convID, setConvID }) => {
         Topic: obj.Topic,
         Date: new Date(obj.Date),
       }));
-
+      // sort by IDConversation
+      const sortedData = transformedData.sort((a: { IDConversation: number }, b: { IDConversation: number }) => a.IDConversation - b.IDConversation);
       // Update state
       console.log(transformedData);
-      setHistData(transformedData);
+      setHistData(sortedData);
     } catch (error) {
       console.log(error);
     }
