@@ -67,30 +67,30 @@ const Chat: React.FC<Props> = ({userID,convID}) => {
         IDUser: number;
         Topic: string;
         Date: Date;
-      }[]>([]);
+    }[]>([]);
     async function getConv() {
         try {
-          const response = await fetch(
-            `https://tubes3chatakudongbe-production.up.railway.app/${userID}`
-          );
-          const data = await response.json();
+            const response = await fetch(
+                `https://tubes3chatakudongbe-production.up.railway.app/${userID}`
+            );
+            const data = await response.json();
     
-          // Transform each object in the data.conversation array to the required format
-          const transformedData = data.conversation.map((obj: any) => ({
-            IDConversation: obj.IDConversation,
-            IDUser: obj.IDUser,
-            Topic: obj.Topic,
-            Date: new Date(obj.Date),
-          }));
-          const filteredData = transformedData.filter((item: { IDConversation: number; }) => item.IDConversation === convID);
-          console.log(filteredData);
-          // Update state
-          console.log(transformedData);
-          setHistData(transformedData);
+            // Transform each object in the data.conversation array to the required format
+            const transformedData = data.conversation.map((obj: any) => ({
+                IDConversation: obj.IDConversation,
+                IDUser: obj.IDUser,
+                Topic: obj.Topic,
+                Date: new Date(obj.Date),
+            }));
+            const filteredData = transformedData.filter((item: { IDConversation: number; }) => item.IDConversation === convID);
+            console.log(filteredData);
+            // Update state
+            console.log(transformedData);
+            setHistData(transformedData);
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      }
+    }
     useEffect(() => {
         getConv()
         const filteredData = histData.filter((item: { IDConversation: number; }) => item.IDConversation === convID);
