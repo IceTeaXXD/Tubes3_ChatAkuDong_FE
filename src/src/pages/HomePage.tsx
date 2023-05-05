@@ -21,7 +21,7 @@ const HomePage: React.FC<HistProps> = ({userID, convID,setConvID}) => {
             <div className="w-full bg-white">
             <div className="flex h-screen antialiased">
                 <div className="flex flex-col flex-auto">
-                <img src={require("../assets/logo-bg.png")} className="rounded-full mx-auto max-h-screen p-7"></img>
+                <img src={require("../assets/logo-bg.png")} className="rounded-full mx-auto h-1/2 my-auto"></img>
                 </div>
             </div>
             </div>

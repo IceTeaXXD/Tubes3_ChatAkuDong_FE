@@ -46,15 +46,21 @@ const SideBar: React.FC<Props> = ({userID}) => {
                 </div>
             </form>
 
-            <div className = "mt-6">
-                <img className = "mx-auto m-3" src={require('../assets/history.png')} alt = "logo" width="23px"></img>
+            <div>
+                <button>
+                    <img className = "mx-auto m-3" src={require('../assets/history.png')} alt = "logo" width="23px"></img>
+                </button>
             </div>
-            <div className = "mt-6">
-                <img className = "mx-auto m-3" src={require('../assets/info.png')} alt = "logo" width="25px"></img>
+            <div>
+                <button>
+                    <img className = "mx-auto m-3" src={require('../assets/info.png')} alt = "logo" width="25px"></img>
+                </button>
             </div>
 
             <div className = "absolute bottom-3 mx-auto">
-                <img className = "m-3"src={require('../assets/about-us.png')} alt = "logo" width="25px"></img>
+                <button>
+                    <img className = "m-3"src={require('../assets/about-us.png')} alt = "logo" width="25px"></img>
+                </button>
             </div>
         </div>
     );
