@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ConversationPage from './pages/ConversationPage';
 import HomePage from './pages/HomePage';
 import History from './components/History';
+import AboutUs from './pages/AboutUs';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -28,6 +29,7 @@ function App() {
             <Route path="/" element={<LoginRegister onLogin={handleLogin} setUserID={handleSetUserID} userID={userID} />} />
             <Route path={`/${userID}/${convID}`} element={<ConversationPage userID={userID} convID={convID} setConvID={handleSetConvID}/>} />
             <Route path={"/" + userID} element={<HomePage userID={userID} convID={convID} setConvID={handleSetConvID}/>} />
+            <Route path={"/aboutus"} element = {<AboutUs userID={userID}/>} />
           </Routes>
         </Router>
     </>

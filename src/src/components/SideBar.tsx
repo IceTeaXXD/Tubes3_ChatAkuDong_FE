@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   userID: number;
@@ -38,6 +39,13 @@ const SideBar: React.FC<Props> = ({ userID , flagCol}) => {
     }
     setSubmit(false);
   };
+  const navigate = useNavigate()
+  const aboutus = () => {
+      navigate('/aboutus');
+  };
+  const history = () => {
+      navigate('/'+userID);
+  };
 
   return (
     <div
@@ -71,7 +79,7 @@ const SideBar: React.FC<Props> = ({ userID , flagCol}) => {
           </form>
 
           <div>
-            <button>
+            <button onClick={history}>
               <img
                 className="mx-auto m-3"
                 src={require('../assets/history.png')}
@@ -80,19 +88,8 @@ const SideBar: React.FC<Props> = ({ userID , flagCol}) => {
               />
             </button>
           </div>
-          <div>
-            <button>
-              <img
-                className="mx-auto m-3"
-                src={require('../assets/info.png')}
-                alt="logo"
-                width="25px"
-              />
-            </button>
-          </div>
-
           <div className="absolute bottom-3">
-            <button>
+            <button onClick={aboutus}>
               <img
                 className="m-3"
                 src={require('../assets/about-us.png')}

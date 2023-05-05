@@ -1,11 +1,17 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import SideBar from "../components/SideBar";
+import { useMediaQuery } from "@react-hook/media-query";
 
 interface Props {
     userID: number;
 }
 
 const AboutUs: React.FC<Props> = ({userID}) => {
+    const [checker, setChecker] = useState(false);
+    const isSmallScreen = useMediaQuery("(max-width: 1000px)");
+    useEffect (() => {
+        setChecker(isSmallScreen);
+        });
     const [isHovered, setIsHovered] = useState(false);
     const [image, setImage] = useState(require("../assets/ChatAkuDong.jpg"));
 
@@ -24,7 +30,7 @@ const AboutUs: React.FC<Props> = ({userID}) => {
             <div className="bg-bg w-screen h-screen overflow-x-auto">
                 <div className="flex flex-row">
                     <div className="w-1/12">
-                        <SideBar userID={userID}/>
+                        <SideBar userID={userID} flagCol={checker}/>
                     </div>
                     <div className="w-full">
                         <div className="flex-row h-screen antialiased text-gray-800 font-[Poppins]">
